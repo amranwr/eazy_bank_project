@@ -7,11 +7,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
 
@@ -19,7 +23,24 @@ import javax.sql.DataSource;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/myAccount").authenticated()
+        http.cors().configurationSource(new CorsConfigurationSource() {
+                    @Override
+                    public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+                        CorsConfiguration configuration = new CorsConfiguration();
+                        configuration.addAllowedOrigin("http://localhost:4200");
+                        configuration.setAllowCredentials(true);
+                        configuration.addAllowedHeader("*");
+                        configuration.addAllowedMethod("*");
+                        configuration.setMaxAge(3600L);
+                        return configuration;
+                    }
+                }).and()
+                .authorizeRequests().antMatchers("/myAccount").authenticated()
+                .antMatchers("/myBalance").authenticated()
+                .antMatchers("/myCards").authenticated()
+                .antMatchers("/user").authenticated()
+                .antMatchers("/contacts").permitAll()
+                .antMatchers("/myLoans").authenticated()
                 .antMatchers("/notices").permitAll();
         http.formLogin();
         http.httpBasic();
@@ -41,6 +62,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder getPasswordEncoder(){
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 }
