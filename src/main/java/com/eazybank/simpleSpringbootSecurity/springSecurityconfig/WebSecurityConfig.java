@@ -6,9 +6,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+
+import javax.sql.DataSource;
 
 
 @Configuration
@@ -20,7 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin();
         http.httpBasic();
     }
-
+/*
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
@@ -29,7 +33,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         userDetailsManager.createUser(user1);
         userDetailsManager.createUser(user2);
         auth.userDetailsService(userDetailsManager);
-    }
+    }*/
+/*    @Bean
+    public UserDetailsService userDetailsService(DataSource dataSource){
+        return new JdbcUserDetailsManager(dataSource);
+    }*/
 
     @Bean
     public PasswordEncoder getPasswordEncoder(){
