@@ -27,7 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         configuration.setMaxAge(3600L);
                         return configuration;
 
-                }).and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
+                }).and().csrf().ignoringAntMatchers("/contact").csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
                 .authorizeRequests().antMatchers("/myAccount").authenticated()
                 .antMatchers("/myBalance").authenticated()
                 .antMatchers("/myCards").authenticated()
