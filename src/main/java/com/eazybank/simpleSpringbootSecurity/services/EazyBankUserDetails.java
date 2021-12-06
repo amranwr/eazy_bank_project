@@ -2,7 +2,7 @@ package com.eazybank.simpleSpringbootSecurity.services;
 
 import com.eazybank.simpleSpringbootSecurity.models.Customer;
 import com.eazybank.simpleSpringbootSecurity.repositories.CustomerRepo;
-import com.eazybank.simpleSpringbootSecurity.security.SecurityCustomer;
+import com.eazybank.simpleSpringbootSecurity.models.SecurityCustomer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

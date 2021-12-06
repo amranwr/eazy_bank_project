@@ -1,4 +1,4 @@
-package com.eazybank.simpleSpringbootSecurity.security;
+package com.eazybank.simpleSpringbootSecurity.models;
 
 import com.eazybank.simpleSpringbootSecurity.models.Customer;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,7 +20,9 @@ public class SecurityCustomer implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> mylist = new ArrayList<>();
-        mylist.add(new SimpleGrantedAuthority(this.customer.getRole()));
+        for(Authority authority : this.customer.getAuthorities()){
+            mylist.add(new SimpleGrantedAuthority(authority.getName()));
+        }
         return mylist;
     }
 

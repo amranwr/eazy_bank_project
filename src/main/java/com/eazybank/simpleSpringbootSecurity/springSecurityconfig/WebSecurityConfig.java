@@ -28,12 +28,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         return configuration;
 
                 }).and().csrf().ignoringAntMatchers("/contact").csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
-                .authorizeRequests().antMatchers("/myAccount").authenticated()
-                .antMatchers("/myBalance").authenticated()
-                .antMatchers("/myCards").authenticated()
+                .authorizeRequests().antMatchers("/myAccount").hasAuthority("write")
+                .antMatchers("/myBalance").hasAuthority("read")
+                .antMatchers("/myCards").hasAuthority("read")
                 .antMatchers("/user").authenticated()
                 .antMatchers("/contacts").permitAll()
-                .antMatchers("/myLoans").authenticated()
+                .antMatchers("/myLoans").hasAuthority("delete")
                 .antMatchers("/notices").permitAll();
         http.formLogin();
         http.httpBasic();
